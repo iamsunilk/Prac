@@ -1,0 +1,46 @@
+<div class="welcome">
+  <h2>Welcome to Sunil</h2>
+  <p>Explore the world with Ease</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Date</th>
+        <th>TemperatureC</th>
+        <th>TemperatureF</th>
+        <th>Summary</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let forecast of weatherForecasts; index as i">
+        <td>{{ i + 1 }}</td>
+
+        <!-- Editable row -->
+        <ng-container *ngIf="editingId === forecast.id; else viewRow">
+          <td><input [(ngModel)]="editForecast.date" type="date" /></td>
+          <td><input [(ngModel)]="editForecast.temperatureC" type="number" /></td>
+          <td><input [(ngModel)]="editForecast.temperatureF" type="number" /></td>
+          <td><input [(ngModel)]="editForecast.summary" /></td>
+          <td>
+            <button (click)="updateForecast()">Save</button>
+            <button (click)="cancelEdit()">Cancel</button>
+          </td>
+        </ng-container>
+
+        <!-- Read-only row -->
+        <ng-template #viewRow>
+          <td>{{ forecast.date | date: 'mediumDate' }}</td>
+          <td>{{ forecast.temperatureC }}</td>
+          <td>{{ forecast.temperatureF }}</td>
+          <td>{{ forecast.summary }}</td>
+          <td>
+            <button (click)="startEdit(forecast)">Edit</button>
+            <button (click)="confirmDelete(forecast.id)">Delete</button>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>
